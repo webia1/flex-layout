@@ -72,35 +72,36 @@ export class MockMatchMedia extends MatchMedia {
       // Simulate activation of overlapping lt-<XXX> ranges
       switch (alias) {
         case 'lg'   :
-          this._activateByAlias('lt-xl');
+          this._activateByAlias(['lt-xl']);
           break;
         case 'md'   :
-          this._activateByAlias('lt-xl, lt-lg');
+          this._activateByAlias(['lt-xl', 'lt-lg']);
           break;
         case 'sm'   :
-          this._activateByAlias('lt-xl, lt-lg, lt-md');
+          this._activateByAlias(['lt-xl', 'lt-lg', 'lt-md']);
           break;
         case 'xs'   :
-          this._activateByAlias('lt-xl, lt-lg, lt-md, lt-sm');
+          this._activateByAlias(['lt-xl', 'lt-lg', 'lt-md', 'lt-sm']);
           break;
       }
 
       // Simulate activation of overlapping gt-<xxxx> mediaQuery ranges
       switch (alias) {
         case 'xl'   :
-          this._activateByAlias('gt-lg, gt-md, gt-sm, gt-xs');
+          this._activateByAlias(['gt-lg', 'gt-md', 'gt-sm', 'gt-xs']);
           break;
         case 'lg'   :
-          this._activateByAlias('gt-md, gt-sm, gt-xs');
+          this._activateByAlias(['gt-md', 'gt-sm', 'gt-xs']);
           break;
         case 'md'   :
-          this._activateByAlias('gt-sm, gt-xs');
+          this._activateByAlias(['gt-sm', 'gt-xs']);
           break;
         case 'sm'   :
-          this._activateByAlias('gt-xs');
+          this._activateByAlias(['gt-xs']);
           break;
       }
     }
+
     // Activate last since the responsiveActivation is watching *this* mediaQuery
     return this._activateByQuery(mediaQuery);
   }
@@ -108,18 +109,21 @@ export class MockMatchMedia extends MatchMedia {
   /**
    *
    */
-  private _activateByAlias(aliases: string) {
+  private _activateByAlias(aliases: string[]) {
     const activate = (alias: string) => {
       const bp = this._breakpoints.findByAlias(alias);
       this._activateByQuery(bp ? bp.mediaQuery : alias);
     };
-    aliases.split(',').forEach(alias => activate(alias.trim()));
+    aliases.forEach(activate);
   }
 
   /**
    *
    */
   private _activateByQuery(mediaQuery: string) {
+    if (!this.registry.has(mediaQuery) && this.autoRegisterQueries) {
+      this._registerMediaQuery(mediaQuery);
+    }
     const mql: MockMediaQueryList = this.registry.get(mediaQuery) as MockMediaQueryList;
 
     if (mql && !this.isActive(mediaQuery)) {
@@ -192,7 +196,7 @@ export class MockMediaQueryList implements MediaQueryList {
       this._isActive = true;
       this._listeners.forEach((callback) => {
         const cb: ((this: MediaQueryList, ev: MediaQueryListEvent) => any) = callback!;
-        cb.call(null, this);
+        cb.call(this, {matches: this.matches, media: this.media} as MediaQueryListEvent);
       });
     }
     return this;
@@ -204,7 +208,7 @@ export class MockMediaQueryList implements MediaQueryList {
       this._isActive = false;
       this._listeners.forEach((callback) => {
         const cb: ((this: MediaQueryList, ev: MediaQueryListEvent) => any) = callback!;
-        cb.call(null, this);
+        cb.call(this, {matches: this.matches, media: this.media} as MediaQueryListEvent);
       });
     }
     return this;
@@ -217,7 +221,7 @@ export class MockMediaQueryList implements MediaQueryList {
     }
     if (this._isActive) {
       const cb: ((this: MediaQueryList, ev: MediaQueryListEvent) => any) = listener!;
-      cb.call(null, this);
+      cb.call(this, {matches: this.matches, media: this.media} as MediaQueryListEvent);
     }
   }
 

@@ -1,3 +1,123 @@
+<a name="11.0.0-beta.33"></a>
+# [11.0.0-beta.33](https://github.com/angular/flex-layout/compare/10.0.0-beta.32...11.0.0-beta.33) (2020-11-12)
+
+This release adds support for Angular v11 and Angular CDK v11, along with TypeScript v4.0.
+
+### Bug Fixes
+
+* **core:** set fractional breakpoints to .98 instead of .9 ([#1308](https://github.com/angular/flex-layout/issues/1308)) ([c1c545c](https://github.com/angular/flex-layout/commit/c1c545c))
+
+
+
+<a name="10.0.0-beta.32"></a>
+# [10.0.0-beta.32](https://github.com/angular/flex-layout/compare/9.0.0-beta.31...10.0.0-beta.32) (2020-06-15)
+
+This release adds support for Angular v10 and Angular CDK v10.
+
+### Bug Fixes
+
+* **core:** add generic type to ModuleWithProviders to support v10 ([#1260](https://github.com/angular/flex-layout/issues/1260)) ([f47da38](https://github.com/angular/flex-layout/commit/f47da38))
+* **mock-match-media:** ensure overlapping breakpoints are activated ([#1265](https://github.com/angular/flex-layout/issues/1265)) ([af92cb0](https://github.com/angular/flex-layout/commit/af92cb0))
+
+
+
+<a name="9.0.0-beta.31"></a>
+# [9.0.0-beta.31](https://github.com/angular/flex-layout/compare/9.0.0-beta.30...9.0.0-beta.31) (2020-05-15)
+
+This is a patch release to address a regression in the ShowHideDirective. The next full release will target
+Angular v10.
+
+### Bug Fixes
+
+* **show-hide:** set explicit display fallback for SSR ([#1252](https://github.com/angular/flex-layout/issues/1252)) ([0c5811d](https://github.com/angular/flex-layout/commit/0c5811d))
+
+
+
+<a name="9.0.0-beta.30"></a>
+# [9.0.0-beta.30](https://github.com/angular/flex-layout/compare/9.0.0-beta.29...9.0.0-beta.30) (2020-05-11)
+
+This will be the last release with support for Angular v9. The next release will be for Angular v10.
+
+### Bug Fixes
+
+* **core:** ignore null values in breakpoint fallback mechanism ([#1247](https://github.com/angular/flex-layout/issues/1247)) ([5085909](https://github.com/angular/flex-layout/commit/5085909))
+* **core:** only trigger style updates when value changes ([#1246](https://github.com/angular/flex-layout/issues/1246)) ([a96ef13](https://github.com/angular/flex-layout/commit/a96ef13))
+* **flex:** wait for parent element until template is initialized ([#1237](https://github.com/angular/flex-layout/issues/1237)) ([93a426a](https://github.com/angular/flex-layout/commit/93a426a))
+* **match-media:** unregister media query event listeners on destroy ([#1236](https://github.com/angular/flex-layout/issues/1236)) ([2ca7848](https://github.com/angular/flex-layout/commit/2ca7848))
+* **media-marshaller:** do not propagate undefined value ([#1245](https://github.com/angular/flex-layout/issues/1245)) ([b05d51a](https://github.com/angular/flex-layout/commit/b05d51a))
+* **media-observer:** return correct value for isActive on init ([#1244](https://github.com/angular/flex-layout/issues/1244)) ([bf069af](https://github.com/angular/flex-layout/commit/bf069af))
+* **orientation:** use tablet landscape screen type ([#1220](https://github.com/angular/flex-layout/issues/1220)) ([dd772d7](https://github.com/angular/flex-layout/commit/dd772d7))
+* **print-hook:** unregister event listeners on destroy ([#1235](https://github.com/angular/flex-layout/issues/1235)) ([6d0cd00](https://github.com/angular/flex-layout/commit/6d0cd00))
+* **show-hide:** use initial value as fallback instead of parent ([#1243](https://github.com/angular/flex-layout/issues/1243)) ([bf2355b](https://github.com/angular/flex-layout/commit/bf2355b))
+
+
+### Features
+
+* **layout-gap:** add x/y options for grid mode ([#1234](https://github.com/angular/flex-layout/issues/1234)) ([990586b](https://github.com/angular/flex-layout/commit/990586b))
+
+
+NOTE: if you consume Angular Layout through UMD, we no longer re-export secondary 
+entrypoints (e.g. @angular/flex-layout/flex) from the top-level (@angular/flex-layout) bundle. Please
+modify your apps accordingly. For users of the Angular CLI, this should not be an issue.
+
+<a name="9.0.0-beta.29"></a>
+# [9.0.0-beta.29](https://github.com/angular/flex-layout/compare/9.0.0-beta.28...9.0.0-beta.29) (2020-02-06)
+
+This release adds support for projects using Angular v9 without Ivy.
+
+<a name="9.0.0-beta.28"></a>
+# [9.0.0-beta.28](https://github.com/angular/flex-layout/compare/8.0.0-beta.27...9.0.0-beta.28) (2020-01-27)
+
+This release adds compatibility for Angular v9, which removed some private APIs this library depended on.
+
+### Bug Fixes
+
+* **ssr:** reset class counter to zero before each render ([#1153](https://github.com/angular/flex-layout/issues/1153)) ([d062708](https://github.com/angular/flex-layout/commit/d062708))
+
+
+### Features
+
+* **core:** support beforeprint and afterprint hooks ([#1080](https://github.com/angular/flex-layout/issues/1080)) ([8302998](https://github.com/angular/flex-layout/commit/8302998)), closes [#603](https://github.com/angular/flex-layout/issues/603)
+* change tslib from direct dependency to peerDependency ([#1132](https://github.com/angular/flex-layout/issues/1132)) ([06268b8](https://github.com/angular/flex-layout/commit/06268b8))
+
+
+### BREAKING CHANGES
+
+* We no longer directly have a direct depedency on `tslib`. Instead it is now listed a `peerDependency`.
+
+Users not using the CLI will need to manually install `tslib` via;
+```
+yarn add tslib
+```
+or
+```
+npm install tslib --save
+```
+
+<a name="8.0.0-beta.27"></a>
+# [8.0.0-beta.27](https://github.com/angular/flex-layout/compare/8.0.0-beta.26...8.0.0-beta.27) (2019-08-30)
+
+This release fixes compatibility issues for the next version of the Angular rendering engine, while
+maintaining compatibility with Angular v8.
+
+### Bug Fixes
+
+* **core:** update breakpoints ranges to avoid overlapping ([#1075](https://github.com/angular/flex-layout/issues/1075)) ([31cb34e](https://github.com/angular/flex-layout/commit/31cb34e)), closes [angular/flex-layout#1052](https://github.com/angular/flex-layout/issues/1052) [angular/flex-layout#1001](https://github.com/angular/flex-layout/issues/1001)
+* **fxFlex:** use correct type for basis validation in reflow case ([#1095](https://github.com/angular/flex-layout/issues/1095)) ([d02377a](https://github.com/angular/flex-layout/commit/d02377a)), closes [#1089](https://github.com/angular/flex-layout/issues/1089)
+* **server:** breakpoints can be used by MediaObserver ([#1087](https://github.com/angular/flex-layout/issues/1087)) ([6bbfe23](https://github.com/angular/flex-layout/commit/6bbfe23))
+
+
+
+<a name="8.0.0-beta.26"></a>
+# [8.0.0-beta.26](https://github.com/angular/flex-layout/compare/7.0.0-beta.24...8.0.0-beta.26) (2019-05-24)
+
+This release adds compatibility for Angular v8 final, which contained a breaking change from previous RCs.
+
+<a name="8.0.0-beta.25"></a>
+# [8.0.0-beta.25](https://github.com/angular/flex-layout/compare/7.0.0-beta.24...8.0.0-beta.25) (2019-05-19)
+
+This release is solely for compatibility with Angular and Components v8, with a minor Bazel fix as well.
+
 <a name="7.0.0-beta.24"></a>
 # [7.0.0-beta.24](https://github.com/angular/flex-layout/compare/7.0.0-beta.23...7.0.0-beta.24) (2019-03-17)
 

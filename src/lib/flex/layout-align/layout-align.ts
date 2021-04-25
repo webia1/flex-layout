@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {Directive, ElementRef, Optional, Injectable} from '@angular/core';
+import {Directive, ElementRef, Injectable} from '@angular/core';
 import {
   BaseDirective2,
   StyleBuilder,
@@ -119,17 +119,16 @@ const selector = `
  *  @see https://css-tricks.com/almanac/properties/a/align-items/
  *  @see https://css-tricks.com/almanac/properties/a/align-content/
  */
+@Directive()
 export class LayoutAlignDirective extends BaseDirective2 {
   protected DIRECTIVE_KEY = 'layout-align';
   protected layout = 'row';  // default flex-direction
   protected inline = false;  // default inline value
 
-  constructor(protected elRef: ElementRef,
-              protected styleUtils: StyleUtils,
-              // NOTE: not actually optional, but we need to force DI without a
-              // constructor call
-              @Optional() protected styleBuilder: LayoutAlignStyleBuilder,
-              protected marshal: MediaMarshaller) {
+  constructor(elRef: ElementRef,
+              styleUtils: StyleUtils,
+              styleBuilder: LayoutAlignStyleBuilder,
+              marshal: MediaMarshaller) {
     super(elRef, styleBuilder, styleUtils, marshal);
     this.init();
     this.marshal.trackValue(this.nativeElement, 'layout')

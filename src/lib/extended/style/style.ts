@@ -39,26 +39,27 @@ import {
   keyValuesToMap,
 } from './style-transforms';
 
+@Directive()
 export class StyleDirective extends BaseDirective2 implements DoCheck {
 
   protected DIRECTIVE_KEY = 'ngStyle';
   protected fallbackStyles: NgStyleMap;
   protected isServer: boolean;
 
-  constructor(protected elementRef: ElementRef,
-              protected styler: StyleUtils,
-              protected marshal: MediaMarshaller,
-              protected keyValueDiffers: KeyValueDiffers,
-              protected renderer: Renderer2,
+  constructor(elementRef: ElementRef,
+              styler: StyleUtils,
+              marshal: MediaMarshaller,
               protected sanitizer: DomSanitizer,
+              differs: KeyValueDiffers,
+              renderer2: Renderer2,
               @Optional() @Self() private readonly ngStyleInstance: NgStyle,
-              @Optional() @Inject(SERVER_TOKEN) serverLoaded: boolean,
+              @Inject(SERVER_TOKEN) serverLoaded: boolean,
               @Inject(PLATFORM_ID) platformId: Object) {
     super(elementRef, null!, styler, marshal);
     if (!this.ngStyleInstance) {
-      // Create an instance NgClass Directive instance only if `ngClass=""` has NOT been
+      // Create an instance NgStyle Directive instance only if `ngStyle=""` has NOT been
       // defined on the same host element; since the responsive variations may be defined...
-      this.ngStyleInstance = new NgStyle(this.keyValueDiffers, this.elementRef, this.renderer);
+      this.ngStyleInstance = new NgStyle(elementRef, differs, renderer2);
     }
     this.init();
     const styles = this.nativeElement.getAttribute('style') || '';

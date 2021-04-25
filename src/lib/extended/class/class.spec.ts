@@ -198,6 +198,12 @@ describe('class directive', () => {
     expectNativeEl(fixture).toHaveCssClass('mat-class');
   });
 
+  it('should support more than one responsive breakpoint on one element with undefined', () => {
+    createTestComponent(`<div ngClass.lt-lg="mat-class" [ngClass.md]="undefined"></div>`);
+    mediaController.activate('md', true);
+    expectNativeEl(fixture).toHaveCssClass('mat-class');
+  });
+
   it('should work with ngClass object notation', () => {
     createTestComponent(`
       <div [ngClass]="{'x1': hasX1, 'x3': hasX3}"
@@ -388,7 +394,7 @@ describe('binding to CSS class list', () => {
 
           detectChangesAndExpectClassName('foo');
 
-          delete getComponent().objExpr;
+          getComponent().objExpr = {};
           detectChangesAndExpectClassName('');
 
           getComponent().objExpr = {'foo': false, 'bar': true};
@@ -521,20 +527,20 @@ describe('binding to CSS class list', () => {
           detectChangesAndExpectClassName('baz');
         }));
 
-     it('should remove active classes when switching from string to null', fakeAsync(() => {
+     it('should remove active classes when switching from string to blank', fakeAsync(() => {
           fixture = createTestComponent(`<div [ngClass]="strExpr"></div>`);
           detectChangesAndExpectClassName('foo');
 
-          delete getComponent().strExpr;
+          getComponent().strExpr = '';
           detectChangesAndExpectClassName('');
         }));
 
-     it('should take initial classes into account when switching from string to null',
+     it('should take initial classes into account when switching from string to empty',
         fakeAsync(() => {
           fixture = createTestComponent(`<div class="foo" [ngClass]="strExpr"></div>`);
           detectChangesAndExpectClassName('foo');
 
-          delete getComponent().strExpr;
+          getComponent().strExpr = '';
           detectChangesAndExpectClassName('foo');
         }));
 
@@ -558,7 +564,7 @@ describe('binding to CSS class list', () => {
           objExpr['foo'] = false;
           detectChangesAndExpectClassName('init bar');
 
-          delete getComponent().objExpr;
+          getComponent().objExpr = {};
           detectChangesAndExpectClassName('init foo');
         }));
 
@@ -572,7 +578,7 @@ describe('binding to CSS class list', () => {
           objExpr['foo'] = false;
           detectChangesAndExpectClassName(`init bar`);
 
-          delete getComponent().objExpr;
+          getComponent().objExpr = {};
           detectChangesAndExpectClassName(`init foo`);
         }));
 
@@ -587,7 +593,7 @@ describe('binding to CSS class list', () => {
           objExpr['foo'] = false;
           detectChangesAndExpectClassName(`init bar`);
 
-          delete getComponent().objExpr;
+          getComponent().objExpr = {};
           detectChangesAndExpectClassName(`init foo`);
         }));
 
@@ -623,7 +629,7 @@ describe('binding to CSS class list', () => {
           cmp.strExpr = 'baz';
           detectChangesAndExpectClassName('init bar baz foo');
 
-          delete cmp.objExpr;
+          cmp.objExpr = {};
           detectChangesAndExpectClassName('init baz');
         }));
    });

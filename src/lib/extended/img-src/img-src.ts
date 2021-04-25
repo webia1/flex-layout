@@ -23,6 +23,7 @@ export class ImgSrcStyleBuilder extends StyleBuilder {
   }
 }
 
+@Directive()
 export class ImgSrcDirective extends BaseDirective2 {
   protected DIRECTIVE_KEY = 'img-src';
   protected defaultSrc = '';
@@ -33,10 +34,10 @@ export class ImgSrcDirective extends BaseDirective2 {
     this.setValue(this.defaultSrc, '');
   }
 
-  constructor(protected elementRef: ElementRef,
-              protected styleBuilder: ImgSrcStyleBuilder,
-              protected styler: StyleUtils,
-              protected marshal: MediaMarshaller,
+  constructor(elementRef: ElementRef,
+              styleBuilder: ImgSrcStyleBuilder,
+              styler: StyleUtils,
+              marshal: MediaMarshaller,
               @Inject(PLATFORM_ID) protected platformId: Object,
               @Inject(SERVER_TOKEN) protected serverModuleLoaded: boolean) {
     super(elementRef, styleBuilder, styler, marshal);

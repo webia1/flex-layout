@@ -7,11 +7,13 @@
     "noUnusedParameters": true,
     "noUnusedLocals": true,
     "strictNullChecks": true,
+    "noImplicitReturns": true,
     "strictFunctionTypes": true,
     "strictPropertyInitialization": true,
     "noImplicitAny": true,
     "noImplicitThis": true,
     "importHelpers": true,
+    "strictBindCallApply": true,
     "newLine": "lf",
     "module": "es2015",
     "moduleResolution": "node",
@@ -38,9 +40,11 @@
   ],
   "angularCompilerOptions": {
     "annotateForClosureCompiler": true,
+    "enableIvy": false,
     "strictMetadataEmit": true,
     "flatModuleOutFile": "index.js",
     "flatModuleId": "@angular/flex-layout",
+    "flatModulePrivateSymbolPrefix": "flex_layout_private",
     "skipTemplateCodegen": true,
     "fullTemplateTypeCheck": true
   }

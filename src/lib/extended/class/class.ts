@@ -19,6 +19,7 @@ import {
 import {NgClass} from '@angular/common';
 import {BaseDirective2, StyleUtils, MediaMarshaller} from '@angular/flex-layout/core';
 
+@Directive()
 export class ClassDirective extends BaseDirective2 implements DoCheck {
 
   protected DIRECTIVE_KEY = 'ngClass';
@@ -33,20 +34,18 @@ export class ClassDirective extends BaseDirective2 implements DoCheck {
     this.setValue(val, '');
   }
 
-  constructor(protected elementRef: ElementRef,
-              protected styler: StyleUtils,
-              protected marshal: MediaMarshaller,
-              protected iterableDiffers: IterableDiffers,
-              protected keyValueDiffers: KeyValueDiffers,
-              protected renderer: Renderer2,
+  constructor(elementRef: ElementRef,
+              styler: StyleUtils,
+              marshal: MediaMarshaller,
+              iterableDiffers: IterableDiffers,
+              keyValueDiffers: KeyValueDiffers,
+              renderer2: Renderer2,
               @Optional() @Self() protected readonly ngClassInstance: NgClass) {
     super(elementRef, null!, styler, marshal);
     if (!this.ngClassInstance) {
       // Create an instance NgClass Directive instance only if `ngClass=""` has NOT been defined on
       // the same host element; since the responsive variations may be defined...
-      this.ngClassInstance = new NgClass(
-        this.iterableDiffers, this.keyValueDiffers, this.elementRef, this.renderer
-      );
+      this.ngClassInstance = new NgClass(iterableDiffers, keyValueDiffers, elementRef, renderer2);
     }
     this.init();
     this.setValue('', '');

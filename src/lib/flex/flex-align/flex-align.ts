@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {Directive, ElementRef, Injectable, Optional} from '@angular/core';
+import {Directive, ElementRef, Injectable} from '@angular/core';
 import {
   MediaMarshaller,
   BaseDirective2,
@@ -55,16 +55,15 @@ const selector = `
  * Allows element-specific overrides for cross-axis alignments in a layout container
  * @see https://css-tricks.com/almanac/properties/a/align-self/
  */
+@Directive()
 export class FlexAlignDirective extends BaseDirective2 {
 
   protected DIRECTIVE_KEY = 'flex-align';
 
-  constructor(protected elRef: ElementRef,
-              protected styleUtils: StyleUtils,
-              // NOTE: not actually optional, but we need to force DI without a
-              // constructor call
-              @Optional() protected styleBuilder: FlexAlignStyleBuilder,
-              protected marshal: MediaMarshaller) {
+  constructor(elRef: ElementRef,
+              styleUtils: StyleUtils,
+              styleBuilder: FlexAlignStyleBuilder,
+              marshal: MediaMarshaller) {
     super(elRef, styleBuilder, styleUtils, marshal);
     this.init();
   }

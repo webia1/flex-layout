@@ -17,8 +17,7 @@ task('universal:serve', sequenceTask(
 
 task('prerender', sequenceTask(
   'prerender:pre',
-  'prerender:build',
-  'prerender:webpack')
+  'prerender:build')
 );
 task('prerender:pre', sequenceTask(
   'clean',
@@ -54,17 +53,12 @@ task('prerender:bundle:rename', [], execTask(
 
 /** Task that builds the universal-app in server mode */
 task('prerender:build', execTask(
-  'npm', ['run', 'build:ssr:bundle'],
+  'yarn', ['build:ssr'],
   {cwd: universalAppSource, failOnStderr: true}
 ));
 
-task('prerender:webpack', execTask(
-  'npm', ['run', 'build:server'],
-  {cwd: universalAppSource}
-));
-
 task('prerender:run:server', execTask(
-  'node', ['dist/server.js'],
+  'yarn', ['start:ssr'],
   {cwd: universalAppSource, failOnStderr: true}
 ));
 

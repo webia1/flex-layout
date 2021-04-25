@@ -65,8 +65,8 @@ export class MediaObserver implements OnDestroy {
 
   /**
    * @deprecated Use `asObservable()` instead.
-   * @breaking-change 7.0.0-beta.24
-   * @deletion-target v7.0.0-beta.25
+   * @breaking-change 8.0.0-beta.25
+   * @deletion-target 10.0.0
    */
   readonly media$: Observable<MediaChange>;
 
@@ -113,7 +113,7 @@ export class MediaObserver implements OnDestroy {
     const aliases = splitQueries(coerceArray(value));
     return aliases.some(alias => {
       const query = toMediaQuery(alias, this.breakpoints);
-      return this.matchMedia.isActive(query);
+      return query !== null && this.matchMedia.isActive(query);
     });
   }
 
@@ -201,7 +201,7 @@ export class MediaObserver implements OnDestroy {
  */
 function toMediaQuery(query: string, locator: BreakPointRegistry) {
   const bp = locator.findByAlias(query) || locator.findByQuery(query);
-  return bp ? bp.mediaQuery : query;
+  return bp ? bp.mediaQuery : null;
 }
 
 /**

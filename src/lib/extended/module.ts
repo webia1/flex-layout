@@ -18,7 +18,7 @@ const ALL_DIRECTIVES = [
   DefaultShowHideDirective,
   DefaultClassDirective,
   DefaultStyleDirective,
-  DefaultImgSrcDirective
+  DefaultImgSrcDirective,
 ];
 
 /**

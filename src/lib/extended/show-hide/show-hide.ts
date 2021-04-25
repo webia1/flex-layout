@@ -10,7 +10,6 @@ import {
   ElementRef,
   OnChanges,
   SimpleChanges,
-  Optional,
   Inject,
   PLATFORM_ID,
   Injectable,
@@ -31,31 +30,33 @@ import {takeUntil} from 'rxjs/operators';
 
 export interface ShowHideParent {
   display: string;
+  isServer: boolean;
 }
 
 @Injectable({providedIn: 'root'})
 export class ShowHideStyleBuilder extends StyleBuilder {
   buildStyles(show: string, parent: ShowHideParent) {
     const shouldShow = show === 'true';
-    return {'display': shouldShow ? parent.display : 'none'};
+    return {'display': shouldShow ? parent.display || (parent.isServer ? 'initial' : '') : 'none'};
   }
 }
 
+@Directive()
 export class ShowHideDirective extends BaseDirective2 implements AfterViewInit, OnChanges {
   protected DIRECTIVE_KEY = 'show-hide';
 
-  /** Original dom Elements CSS display style */
+  /** Original DOM Element CSS display style */
   protected display: string = '';
   protected hasLayout = false;
   protected hasFlexChild = false;
 
-  constructor(protected elementRef: ElementRef,
-              protected styleBuilder: ShowHideStyleBuilder,
-              protected styler: StyleUtils,
-              protected marshal: MediaMarshaller,
+  constructor(elementRef: ElementRef,
+              styleBuilder: ShowHideStyleBuilder,
+              styler: StyleUtils,
+              marshal: MediaMarshaller,
               @Inject(LAYOUT_CONFIG) protected layoutConfig: LayoutConfigOptions,
               @Inject(PLATFORM_ID) protected platformId: Object,
-              @Optional() @Inject(SERVER_TOKEN) protected serverModuleLoaded: boolean) {
+              @Inject(SERVER_TOKEN) protected serverModuleLoaded: boolean) {
     super(elementRef, styleBuilder, styler, marshal);
   }
 
@@ -146,8 +147,9 @@ export class ShowHideDirective extends BaseDirective2 implements AfterViewInit, 
     if (value === '') {
       return;
     }
-    this.addStyles(value ? 'true' : 'false', {display: this.display});
-    if (isPlatformServer(this.platformId) && this.serverModuleLoaded) {
+    const isServer = isPlatformServer(this.platformId);
+    this.addStyles(value ? 'true' : 'false', {display: this.display, isServer});
+    if (isServer && this.serverModuleLoaded) {
       this.nativeElement.style.setProperty('display', '');
     }
     this.marshal.triggerUpdate(this.parentElement!, 'layout-gap');
